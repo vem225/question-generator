@@ -292,7 +292,7 @@ document.getElementById('refresh-questions').addEventListener('click', () => {
         return section >= start && section <= end;
     });
 
-    if (filteredPhrases.length < 15) {
+    if (filteredPhrases.length < 16) {
         console.warn('Недостаточно фраз для выбранных разделов. Проверьте данные.');
         return [];
     }
@@ -320,7 +320,7 @@ document.getElementById('refresh-questions').addEventListener('click', () => {
     const remainingPhrases = filteredPhrases.filter(phrase => !mandatoryQuestions.includes(phrase));
 
     const uniqueIndices = new Set();
-    while (uniqueIndices.size < (15 - mandatoryQuestions.length)) {
+    while (uniqueIndices.size < (16 - mandatoryQuestions.length)) {
         uniqueIndices.add(Math.floor(Math.random() * remainingPhrases.length));
     }
 
