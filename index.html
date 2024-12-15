@@ -101,6 +101,7 @@
     <div class="container">
         <div class="button-group">
             <button id="intern-questions">Вопросы для стажёров</button>
+            <button id="refresh-questions">Обновить вопросы</button>
             <button id="junior-questions">Вопросы для мл. сотрудников</button>
         </div>
 
@@ -143,9 +144,9 @@
             { text: 'Го секс', rule: '3.8', punishment: 'Мут на 2 часа' },
             { text: 'Пойдём дуэль на кластере 1 на 1(уточните что это пвп трейнер)', rule: '-', punishment: 'Нету нарушения' },
             { text: 'Слава Америке!', rule: '3.9', punishment: 'Мут на 9 часов' },
-            { text: 'ЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫ(больше 10 символов)', rule: '3.3', punishment: 'Мут на 1 час' },
+            { text: 'ыыыыыыыыыыыыыыыыыы(больше 10 символов)', rule: '3.3', punishment: 'Мут на 1 час' },
             { text: 'Хахахахахахахах(15символов)', rule: '-', punishment: 'Нету нарушения' },
-            { text: 'Я не буду скидывать тебе чек о покупке коинов, ты что мне не веришь? Даже не проси, отказано.', rule: '1.8', punishment: 'Бан 10 дней' },
+            { text: '(Вы гарант, проводите сделку) Я не буду скидывать тебе чек о покупке коинов, ты что мне не веришь? Даже не проси, отказано.', rule: '1.8', punishment: 'Бан 10 дней' },
             { text: 'Я не читер, просто с Нурсултаном игроков унижаю, это же не читы', rule: '2.4', punishment: 'Бан 20 дней' },
             { text: 'Пфф, модеры и не догадались что я просто зарегал второй аккаунт и щас сижу не в бане, лол.', rule: '2.9', punishment: '2x по IP, так же 3 скрина - 1) Наличие игрока в сети 2) /checkban 3) /dupeip' },
             { text: 'Напиши в чат что холик говно и я дам тебе 1кк', rule: '2.6', punishment: 'Бан 7 дней' },
@@ -164,6 +165,9 @@
             { text: 'ПРИВЕТ(уточните что именно капсом)', rule: '-', punishment: 'Нету нарушения' },
             { text: 'Приветствую, я ваш личный казино-бот, кидайте мне монеты и с шансом 50% получите x3', rule: '3.14', punishment: 'Первое нарушение - Мут на 8 часов, Второе нарушение - Бан на 3 дня, Третье нарушение - Бан навсегда' },
             { text: 'Moderator глупый дурак, не умеет работать, тупица!(уточните что moderator - это любой ник действующего модератора)', rule: '3.5', punishment: 'Мут на 10 часов' },
+            { text: '(на Классике) Кто купит мне 250 рубинов за 100к монет, срочно надо', rule: '6.1', punishment: 'Бан на 5 дней'},
+            { text: '(на Классике)  Хей, открылся новой шоп рубинов, заходи к нам в дс, всё по низким ценам(уточните что без лицензии)', rule: '6.2', punishment: 'Бан на 30 дней' },
+            { text: 'Я вчера на трёх читеров /cr кинул с описанием пидорасы с читами. Вот бы их забанили', rule: '7.4', punishment: 'Наказание по правилу 4.3, Бан на 2 дня' },
             
             
         ];
@@ -224,6 +228,20 @@ document.getElementById('junior-questions').addEventListener('click', () => {
     loadQuestions(1, 7); // Вопросы с 1 по 7 раздел
 });
 
+// Обработчик для кнопки "Обновить вопросы"
+document.getElementById('refresh-questions').addEventListener('click', () => {
+    if (!lastClickedButton) {
+        alert('Сначала выберите раздел вопросов!');
+        return;
+    }
+
+    if (lastClickedButton === 'intern') {
+        loadQuestions(1, 4); // Обновить вопросы для стажёров
+    } else if (lastClickedButton === 'junior') {
+        loadQuestions(1, 7); // Обновить вопросы для младших сотрудников
+    }
+});
+
 
         function loadQuestions(startSection, endSection) {
             const questions = generateQuestions(startSection, endSection);
@@ -259,23 +277,71 @@ document.getElementById('junior-questions').addEventListener('click', () => {
                     } else {
                         scoreElement.className = 'score purple';
                     }
+                    if (totalScore >15) {
+                        scoreElement.textContent = `ОШИБКА. Итоговый балл больше 15, пожалуйста, проверьте результаты.`;
+                        scoreElement.className = 'score red'
+                    }
                 });
             });
         }
 
         function generateQuestions(start, end) {
-            const uniqueIndices = new Set();
-            while (uniqueIndices.size < 16) {
-                uniqueIndices.add(Math.floor(Math.random() * phrases.length));
+    // Фильтруем фразы для выбранных разделов
+    const filteredPhrases = phrases.filter(phrase => {
+        const section = parseInt(phrase.rule.split('.')[0], 10); // Извлекаем номер раздела из правила
+        return section >= start && section <= end;
+    });
+
+    if (filteredPhrases.length < 15) {
+        console.warn('Недостаточно фраз для выбранных разделов. Проверьте данные.');
+        return [];
+    }
+
+    // Если выбираем для мл. сотрудников, добавляем 2 обязательных вопроса из разделов 6-7
+    let mandatoryQuestions = [];
+    if (end >= 7) {
+        const section67Phrases = filteredPhrases.filter(phrase => {
+            const section = parseInt(phrase.rule.split('.')[0], 10);
+            return section >= 6 && section <= 7;
+        });
+
+        if (section67Phrases.length >= 2) {
+            const indices = new Set();
+            while (indices.size < 2) {
+                indices.add(Math.floor(Math.random() * section67Phrases.length));
             }
-
-            const selectedPhrases = Array.from(uniqueIndices).map(index => phrases[index]);
-
-            return selectedPhrases.map(phrase => {
-                const nickname = nicknames[Math.floor(Math.random() * nicknames.length)];
-                return `Игрок с ником ${nickname} написал в чат "${phrase.text}". Есть ли тут нарушение? Если есть, укажите пункт и время наказания. <span style="color: green;">${phrase.rule} | ${phrase.punishment}</span>.`;
-            });
+            mandatoryQuestions = Array.from(indices).map(index => section67Phrases[index]);
+        } else {
+            console.warn('Недостаточно фраз из разделов 6-7.');
         }
+    }
+
+    // Оставшиеся вопросы из общего пула, исключая уже выбранные
+    const remainingPhrases = filteredPhrases.filter(phrase => !mandatoryQuestions.includes(phrase));
+
+    const uniqueIndices = new Set();
+    while (uniqueIndices.size < (15 - mandatoryQuestions.length)) {
+        uniqueIndices.add(Math.floor(Math.random() * remainingPhrases.length));
+    }
+
+    const selectedPhrases = [
+        ...mandatoryQuestions,
+        ...Array.from(uniqueIndices).map(index => remainingPhrases[index]),
+    ];
+
+    // Перемешиваем все вопросы
+    const shuffledQuestions = selectedPhrases.sort(() => Math.random() - 0.5);
+
+    // Формируем вопросы с подстановкой случайных ников
+    return shuffledQuestions.map(phrase => {
+        const nickname = nicknames[Math.floor(Math.random() * nicknames.length)];
+        return `Игрок с ником ${nickname} написал в чат "${phrase.text}". Есть ли тут нарушение? Если есть, укажите пункт и время наказания. <span style="color: green;">${phrase.rule} | ${phrase.punishment}</span>.`;
+    });
+}
+
+
+
+
     </script>
 </body>
 </html>
