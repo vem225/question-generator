@@ -119,7 +119,7 @@
 
         <div class="score" id="total-score">Итоговый балл: 0</div>
     </div>
-
+<div class="feedback" id="feedback">Вопросы или пожелания? <a href="https://vk.com/vem225" target="_blank">vk.com/vem225</a></div>
     <script>
         let timer;
         let seconds = 720; // 12 минут в секундах
@@ -207,13 +207,22 @@
             event.returnValue = '';
         });
 
-         document.getElementById('intern-questions').addEventListener('click', () => {
-            loadQuestions(1, 4);
-        });
+document.getElementById('intern-questions').addEventListener('click', () => {
+    if (lastClickedButton === 'intern' || lastClickedButton === 'junior') {
+        if (!confirm('Вы уверены? Это действие сотрёт предыдущие вопросы.')) return;
+    }
+    lastClickedButton = 'intern';
+    loadQuestions(1, 4); // Вопросы с 1 по 4 раздел
+});
 
-        document.getElementById('junior-questions').addEventListener('click', () => {
-            loadQuestions(1, 7);
-        });
+document.getElementById('junior-questions').addEventListener('click', () => {
+    if (lastClickedButton === 'intern' || lastClickedButton === 'junior') {
+        if (!confirm('Вы уверены? Это действие сотрёт предыдущие вопросы.')) return;
+    }
+    lastClickedButton = 'junior';
+    loadQuestions(1, 7); // Вопросы с 1 по 7 раздел
+});
+
 
         function loadQuestions(startSection, endSection) {
             const questions = generateQuestions(startSection, endSection);
