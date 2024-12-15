@@ -208,7 +208,7 @@
         });
 
          document.getElementById('intern-questions').addEventListener('click', () => {
-            if (lastClickedButton === 'intern' or 'junior') {
+            if (lastClickedButton === 'intern') {
                 if (!confirm('Вы уверены? Это сбросит предыдущие вопросы.')) return;
             }
             lastClickedButton = 'intern';
@@ -216,7 +216,7 @@
         });
 
         document.getElementById('junior-questions').addEventListener('click', () => {
-            if (lastClickedButton === 'intern' or 'junior') {
+            if (lastClickedButton === 'junior') {
                 if (!confirm('Вы уверены? Это сбросит предыдущие вопросы.')) return;
             }
             lastClickedButton = 'junior';
