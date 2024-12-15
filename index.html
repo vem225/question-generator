@@ -263,7 +263,7 @@
 
             return selectedPhrases.map(phrase => {
                 const nickname = nicknames[Math.floor(Math.random() * nicknames.length)];
-                return `Игрок с ником ${nickname} написал в чат "${phrase.text}". Есть ли тут нарушение? Если есть, укажите пункт и время наказания. ${phrase.rule} ${phrase.punishment}`;
+                return `Игрок с ником ${nickname} написал в чат "${phrase.text}". Есть ли тут нарушение? Если есть, укажите пункт и время наказания. <span style="color: green;">${phrase.rule} | ${phrase.punishment}</span>.`;
             });
         }
     </script>
