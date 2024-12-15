@@ -124,17 +124,59 @@
         let timer;
         let seconds = 0;
 
-        const nicknames = ['vem225', 'alanova', 'krolik2015', 'shadowkiller', 'pro_player'];
+        const nicknames = [
+  'vem225', 'alanova', 
+  'ToplecCHlKA', 'klemen', 'That0neBear', 'XiSh3n', 'hikomori', 
+  '_Bupsik_', 'ApTa_He_UmBa', 'gromaforz', 'Deth_Angel', 'Derty_1001', 
+  'CAMAPA', 'YarikPR02205', '_Artyfan4ik_', 'Cmeetane', 'BanCheat', 
+  'HapyC0t', 'HackerCat777', 'hqd_d', 'Asya_Masya', '_Darkdeath_', 
+  'm0untain', 'Fl1ckzzz', '_SenpaiCrown_', 'DumpCave', 'HarukaKasugano_', 
+  'KillMe_plz', 'ImSoLegit_', 'Pupsik_BB', 'skyvolik', 'nor1x', 'Akaza3', 
+  'akasha1', 'a11ways', 'egorhack9', 'uliana_pim', 'Jimenez'
+];
+
         const phrases = [
-            { text: 'иди нахуй', rule: '3.4', punishment: 'мут на 3 часа' },
-            { text: 'я админ, давай ресурсы', rule: '2.1', punishment: 'бан на 14 дней' },
-            { text: 'продаю аккаунт', rule: '2.2', punishment: 'бан без возможности разбана' },
-            { text: 'взломаю твой аккаунт', rule: '2.3', punishment: 'бан навсегда по IP' },
-            { text: 'сексуальные сообщения', rule: '3.8', punishment: 'мут на 2 часа' },
-            { text: 'всем реклама моего сервера', rule: '3.1', punishment: 'бан на 14 дней' },
-            { text: 'ненавижу вашу нацию', rule: '3.9', punishment: 'мут на 9 часов' },
-            { text: 'флуд 123123123', rule: '3.3', punishment: 'мут на 1 час' },
-            { text: 'Хахахахахахахах(15символов)', rule: '', punishment: 'Нету нарушения' },
+            { text: 'Иди нахуй', rule: '3.4', punishment: 'Мут на 3 часа' },
+            { text: 'Я админ, давай ресурсы', rule: '2.1', punishment: 'Бан на 14 дней' },
+            { text: 'Продам свой аккаунт, пишите в лс', rule: '2.2', punishment: 'Бан без возможности разбана' },
+            { text: 'Я крч вчера взломал акк челика, столько ресурсов себе перекинул!', rule: '2.3', punishment: 'Бан навсегда по IP' },
+            { text: 'Го секс', rule: '3.8', punishment: 'Мут на 2 часа' },
+            { text: 'Пойдём дуэль на кластере 1 на 1(уточните что это пвп трейнер)', rule: '3.1', punishment: 'Нету нарушения' },
+            { text: 'Слава Америке!', rule: '3.9', punishment: 'Мут на 9 часов' },
+            { text: 'ЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫ(больше 10 символов)', rule: '3.3', punishment: 'Мут на 1 час' },
+            { text: 'Хахахахахахахах(15символов)', rule: '-', punishment: 'Нету нарушения' },
+            { text: 'Я не буду скидывать тебе чек о покупке коинов, ты что мне не веришь? Даже не проси, отказано.', rule: '1.8', punishment: 'Бан 10 дней' },
+            { text: 'Я не читер, просто с Нурсултаном игроков унижаю, это же не читы', rule: '2.4', punishment: 'Бан 20 дней' },
+            { text: 'Пфф, модеры и не догадались что я просто зарегал второй аккаунт и щас сижу не в бане, лол.', rule: '2.9', punishment: '2x по IP, так же 3 скрина - 1) Наличие игрока в сети 2) /checkban 3) /dupeip' },
+            { text: 'Напиши в чат что холик говно и я дам тебе 1кк', rule: '2.6', punishment: 'Бан 7 дней' },
+            { text: 'Всем привет! Пишите мне в личку дискорда, продам крякнутый Авалон, его невозможно найти, он лучший!', rule: '2.4.2', punishment: 'Бан навсегда без возможности разбана' },
+            { text: 'Ну всё, ты мне надоел! Жди докс, жди сват, тебе конец', rule: '2.15', punishment: '-' },
+            { text: 'Тебе бан выдать сразу или потом? А ну быстро перестал меня рейдить и дал мне все свои вещи', rule: '3.10', punishment: 'Мут на 5 часов' },
+            { text: '', rule: '-', punishment: '-' },
+            { text: 'Блин, у меня буквально час назад тиммейта за читы забанили', rule: '2.4.1', punishment: 'Бан 10 дней' },
+            { text: '-', rule: '-', punishment: '-' },
+            { text: 'Скиньте мне 50 рублей на карту! На донат не хватает!', rule: '2.5', punishment: 'Бан 30 дней' },
+            { text: '-', rule: '-', punishment: '-' },
+            { text: '(На лайте) Продам баг на получения яиц дракона, пишите в лс', rule: '2.13', punishment: 'Бан от 3 дней' },
+            { text: 'Все заходите на мою страницу в одноклассниках! *ссылка*', rule: '3.13', punishment: 'Мут на 8 часов' },
+            { text: 'Напиши в чат /suicide два раза и получи кит инфинити!', rule: '2.7', punishment: 'Мут на 5 часов' },
+            { text: 'Заходите все на мой сервер! Открылся недавно! <айпи>', rule: '3.1', punishment: 'Бан навсегда' },
+            { text: 'Блин, обидно, вчера моего тиммейта забанили, который грёб с холика по 500 рублей день с продажи ресурсов на фанпее', rule: '2.5.1', punishment: 'Бан 30 дней' },
+            { text: 'Господи, просто не пиши ничего в чат! Сын микроволновки', rule: '3.6', punishment: 'Мут на 7 часов' },
+            { text: '-', rule: '-', punishment: '-' },
+            { text: '-', rule: '-', punishment: '-' },
+            { text: 'Кто любит маму ставьте + в чат', rule: '3.7', punishment: 'Мут на 3 часа' },
+            { text: '-', rule: '-', punishment: '-' },
+            { text: '-', rule: '-', punishment: '-' },
+            { text: 'ПРИВЕТ(уточните что именно капсом)', rule: '-', punishment: 'Нету нарушения' },
+            { text: '-', rule: '-', punishment: '-' },
+            { text: '-', rule: '-', punishment: '-' },
+            { text: 'Приветствую, я ваш личный казино-бот, кидайте мне монеты и с шансом 50% получите x3', rule: '3.14', punishment: 'Первое нарушение - Мут на 8 часов, Второе нарушение - Бан на 3 дня, Третье нарушение - Бан навсегда' },
+            { text: '-', rule: '-', punishment: '-' },
+            { text: 'Moderator глупый дурак, не умеет работать, тупица!(уточните что moderator - это любой ник действующего модератора)', rule: '3.5', punishment: 'Мут на 10 часов' },
+            { text: '-', rule: '-', punishment: '-' },
+            
+            
         ];
 
         const formatTime = (seconds) => {
@@ -217,7 +259,7 @@
                 const nickname = nicknames[Math.floor(Math.random() * nicknames.length)];
                 const phraseObj = phrases[Math.floor(Math.random() * phrases.length)];
 
-                const question = `Игрок с ником ${nickname} написал в чат "${phraseObj.text}". Есть ли нарушение? Если да, укажите пункт (${phraseObj.rule}) и время наказания (${phraseObj.punishment}).`;
+                const question = `Игрок с ником ${nickname} написал в чат "${phraseObj.text}". Есть ли тут нарушение? Если да, укажите пункт (${phraseObj.rule}) и время наказания (${phraseObj.punishment}).`;
                 questions.push(question);
             }
 
