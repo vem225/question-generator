@@ -3,7 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Генератор Вопросов</title>
+    <title>Генератор Вопросов<BR>
+        <div class="feedback" id="feedback">Вопросы или пожелания? <a href="https://vk.com/vem225" target="_blank">vk.com/vem225</a></div>
+    </title>
     <style>
         body {
             background-color: #121212;
@@ -119,7 +121,6 @@
 
         <div class="score" id="total-score">Итоговый балл: 0</div>
     </div>
-<div class="feedback" id="feedback">Вопросы или пожелания? <a href="https://vk.com/vem225" target="_blank">vk.com/vem225</a></div>
     <script>
         let timer;
         let seconds = 720; // 12 минут в секундах
@@ -206,7 +207,8 @@
             event.preventDefault();
             event.returnValue = '';
         });
-
+        
+let lastClickedButton = null; // Убедитесь, что переменная правильно инициализирована
 document.getElementById('intern-questions').addEventListener('click', () => {
     if (lastClickedButton === 'intern' || lastClickedButton === 'junior') {
         if (!confirm('Вы уверены? Это действие сотрёт предыдущие вопросы.')) return;
