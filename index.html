@@ -105,7 +105,7 @@
         </div>
 
         <div class="controls">
-            <div class="timer" id="timer">00:00</div>
+            <div class="timer" id="timer">12:00</div>
             <div>
                 <button id="start-timer">Старт</button>
                 <button id="stop-timer">Стоп</button>
@@ -122,7 +122,7 @@
 
     <script>
         let timer;
-        let seconds = 0;
+        let seconds = 720; // 12 минут в секундах
 
         const nicknames = [
   'vem225', 'alanova', 
@@ -177,8 +177,15 @@
         document.getElementById('start-timer').addEventListener('click', () => {
             if (!timer) {
                 timer = setInterval(() => {
-                    seconds++;
-                    document.getElementById('timer').innerText = formatTime(seconds);
+                    if (seconds > 0) {
+                        seconds--;
+                        document.getElementById('timer').innerText = formatTime(seconds);
+                    } else {
+                        clearInterval(timer);
+                        timer = null;
+                        const audio = new Audio('https://www.soundjay.com/button/beep-07.mp3');
+                        audio.play();
+                    }
                 }, 1000);
             }
         });
@@ -191,8 +198,13 @@
         document.getElementById('reset-timer').addEventListener('click', () => {
             clearInterval(timer);
             timer = null;
-            seconds = 0;
-            document.getElementById('timer').innerText = "00:00";
+            seconds = 720;
+            document.getElementById('timer').innerText = formatTime(seconds);
+        });
+
+        window.addEventListener('beforeunload', (event) => {
+            event.preventDefault();
+            event.returnValue = '';
         });
 
         document.getElementById('intern-questions').addEventListener('click', () => {
@@ -242,17 +254,17 @@
         }
 
         function generateQuestions(start, end) {
-            const questions = [];
-
-            for (let i = 0; i < 15; i++) {
-                const nickname = nicknames[Math.floor(Math.random() * nicknames.length)];
-                const phraseObj = phrases[Math.floor(Math.random() * phrases.length)];
-
-                const question = `Игрок с ником ${nickname} написал в чат "${phraseObj.text}". Есть ли тут нарушение? Если да, укажите пункт (${phraseObj.rule}) и время наказания (${phraseObj.punishment}).`;
-                questions.push(question);
+            const uniqueIndices = new Set();
+            while (uniqueIndices.size < 16) {
+                uniqueIndices.add(Math.floor(Math.random() * phrases.length));
             }
 
-            return questions;
+            const selectedPhrases = Array.from(uniqueIndices).map(index => phrases[index]);
+
+            return selectedPhrases.map(phrase => {
+                const nickname = nicknames[Math.floor(Math.random() * nicknames.length)];
+                return `Игрок с ником ${nickname} написал в чат "${phrase.text}". Есть ли тут нарушение? Если есть, укажите пункт и время наказания. ${phrase.rule} ${phrase.punishment}`;
+            });
         }
     </script>
 </body>
