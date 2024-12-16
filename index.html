@@ -270,7 +270,7 @@ document.getElementById('refresh-questions').addEventListener('click', () => {
 
                     scoreElement.textContent = `Итоговый балл: ${totalScore}`;
 
-                    if (totalScore <= 9) {
+                    if (totalScore <= 9.5) {
                         scoreElement.className = 'score red';
                     } else if (totalScore <= 13.5) {
                         scoreElement.className = 'score green';
